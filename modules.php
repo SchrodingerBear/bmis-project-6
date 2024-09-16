@@ -170,6 +170,10 @@ if ($_SESSION['position'] == 'Barangay Councilor') {
 	echo generateNavLink("Barangay_Officials/index.php", "Icon/add.png", "Barangay Officials");
 }
 ?>
+<a href="Peace_and_Order/incident.php" target="FraDisplay" onclick="saveLastPage('Peace_and_Order/incident.php')">
+	<img src="Icon/blotter.png" style="float:left" width="28">&nbsp;Eblotter
+</a>
+
 
 <a href="accountLogout.php" target="_Parent"><img src="Icon/logout.png" height="20"
 		style="filter: none!important;">Logout</a>

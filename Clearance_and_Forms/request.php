@@ -1,7 +1,32 @@
 <?php
 session_start();
 include('../Resident_Profiling/connections.php');
+
+if (isset($_GET['id']) && isset($_GET['table']) && isset($_GET['status'])) {
+  $id = intval($_GET['id']);  // Ensure the ID is an integer for security.
+  $table = $_GET['table'];    // Table name from the URL (assumed to be safe).
+  $status = intval($_GET['status']); // Get the status from the URL and ensure it's an integer.
+
+  // Update the status in the specified table.
+  $query = "UPDATE $table SET status = ? WHERE id = ?";
+  $stmt = $db->prepare($query);
+
+  if ($stmt) {
+    // Bind the status and id parameters.
+    $stmt->bind_param("ii", $status, $id);
+    $stmt->execute();
+
+    if ($stmt->affected_rows > 0) {
+    } else {
+    }
+
+    $stmt->close();
+  } else {
+    echo "Failed to prepare the statement.";
+  }
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -71,34 +96,65 @@ include('../Resident_Profiling/connections.php');
     </div>
   </nav>
 
-  <div class="container mt-5">
+  <div class="container-fluid mt-5">
+
     <table id="requestsTable" class="table table-striped">
       <thead>
         <tr>
+          <th>Release Code</th>
           <th>Name</th>
           <th>Date of Birth</th>
           <th>Contact Number</th>
           <th>Form</th>
           <th>Email</th>
+          <th>Status</th>
           <th>Created At</th>
           <th>Action</th>
         </tr>
       </thead>
       <tbody>
         <?php
-        $query = "SELECT first_name, last_name, date_of_birth, contact_number, clearance_form, email, created_at FROM request_forms";
+        $query = "SELECT id, request_code,status,first_name, last_name, date_of_birth, contact_number, clearance_form, email, created_at 
+      FROM request_forms 
+      ORDER BY status DESC, id ASC";
+
+
         $result = mysqli_query($db, $query);
 
         if ($result) {
           while ($row = mysqli_fetch_assoc($result)) {
             echo "<tr data-first-name='" . htmlspecialchars($row['first_name']) . "' data-clearance-form='" . htmlspecialchars($row['clearance_form']) . "'>";
+            echo "<td>" . htmlspecialchars($row['request_code']) . "</td>";
             echo "<td>" . htmlspecialchars($row['first_name'] . " " . $row['last_name']) . "</td>";
             echo "<td>" . htmlspecialchars($row['date_of_birth']) . "</td>";
             echo "<td class='contact-number'>" . htmlspecialchars($row['contact_number']) . "</td>";
             echo "<td class='clearance-form'>" . htmlspecialchars($row['clearance_form']) . "</td>";
             echo "<td>" . htmlspecialchars($row['email']) . "</td>";
+            $status = $row['status'];
+            $statusText = '';
+
+            switch ($status) {
+              case 0:
+                $statusText = 'Pending';
+                break;
+              case 1:
+                $statusText = 'Ready';
+                break;
+              case 2:
+                $statusText = 'Released';
+                break;
+              default:
+                $statusText = 'Unknown';
+                break;
+            }
+
+            echo "<td>" . htmlspecialchars($statusText) . "</td>";
+
             echo "<td>" . htmlspecialchars($row['created_at']) . "</td>";
-            echo '<td><button class="btn btn-primary send-sms-btn">Send SMS</button></td>';
+            echo '<td><button class="btn btn-success send-sms-btn">Send SMS</button> <a class="btn btn-warning" href="request.php?id=' . $row['id'] . '&table=request_forms&status=1">Ready</a>
+<a class="btn btn-primary" href="request.php?id=' . $row['id'] . '&table=request_forms&status=2">Released</a>
+</td>';
+
             echo "</tr>";
           }
         } else {

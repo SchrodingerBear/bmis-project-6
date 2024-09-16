@@ -1,8 +1,29 @@
 <?php
 
-class database
+// Define the global function loadEnv outside the class
+function loadEnv($filePath)
 {
 
+    $absolutePath = realpath($filePath);
+
+    if (!$absolutePath || !file_exists($absolutePath)) {
+        throw new Exception('.env file not found');
+    }
+
+    // Load .env file content
+    $lines = file($absolutePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        if (strpos(trim($line), '#') === 0) {
+            continue;  // Skip comments
+        }
+        list($key, $value) = explode('=', $line, 2);
+        $_ENV[trim($key)] = trim($value);
+    }
+}
+
+
+class database
+{
     protected $host;
     protected $username;
     protected $password;
@@ -14,7 +35,7 @@ class database
     public function __construct($host = null, $username = null, $password = null, $database = null, $port = null)
     {
         // Load environment variables from .env file
-        loadEnv(__DIR__ . '/../../env');
+        loadEnv(__DIR__ . '../../../.env');  // Ensure this path is correct
 
         // Use environment variables if not provided as parameters
         $this->host = $host ?? $_ENV['DB_HOST'];
@@ -26,7 +47,6 @@ class database
         // Establish the database connection
         $this->connection();
     }
-
 
     public function connection()
     {
@@ -59,13 +79,11 @@ class database
 
     public function update($query)
     {
-        // return $query;
         $this->_mysqli->query($query);
     }
 
     public function delete($query)
     {
-        // return $query;
         $this->_mysqli->query($query);
     }
 
@@ -82,10 +100,7 @@ class database
                 return false;
             }
         }
-
     }
-
-
 }
 
 ?>

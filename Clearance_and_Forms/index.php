@@ -251,7 +251,7 @@ if (isset($_POST['labuleh'])) {
             <input class="form-control" type="number" required id="crc" placeholder="CTC Number" name="crc">
           </div>
           <!-- <button type="submit" class="btn btn-success" name="verify_Res">Verify Resident</button> -->
-          <button type="submit" class="btn btn-success" name="labuleh">Submit</button>
+          <button type="submit" class="btn btn-success" name="labuleh">Generate Document</button>
         </form>
         <div class="warning">
           <?php echo $s1;
