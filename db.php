@@ -24,7 +24,10 @@ $db = mysqli_connect(
     $_ENV['DB_HOST'],
     $_ENV['DB_USERNAME'],
     $_ENV['DB_PASSWORD'],
-    $_ENV['DB_DATABASE'],
-    $_ENV['DB_PORT']
-) or die('Error connecting to MySQL server.');
+    $_ENV['DB_DATABASE']
+);
+
+if (!$db) {
+    die('Database connection error: ' . mysqli_connect_error());
+}
 ?>
