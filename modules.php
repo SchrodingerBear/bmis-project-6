@@ -114,19 +114,14 @@ $data = mysqli_fetch_array($z);
 
 	<img src="Picture/banaba.png" style="float:left; border-radius: 50%; filter: invert(0%)!important;" width="50"
 		height="50">
-	<div style="float:center; word-wrap: break-word;">Welcome <?php echo $data[1]; ?></div>
+	<p style="float:center; word-wrap: break-word;">Welcome <?php if (isset($_SESSION['position2'])) {
+		echo $_SESSION['position2'];
+	} else {
+		echo $_SESSION['position'];
+	} ?>
+</div>
 </div>
 
-
-<center>
-	<h3>
-		<?php if (isset($_SESSION['position2'])) {
-			echo $_SESSION['position2'];
-		} else {
-			echo $_SESSION['position'];
-		} ?>
-	</h3>
-</center>
 <?php
 // Function to generate navigation links
 function generateNavLink($href, $icon, $text)
@@ -141,7 +136,7 @@ if ($_SESSION['position'] == 'Barangay Secretary' || $_SESSION['position'] == 'B
 	echo generateNavLink("Resident_Profiling/Dash/index.php", "Icon/home.png", "Dashboard");
 	echo generateNavLink("account.php", "Icon/pen.png", "Account");
 	echo generateNavLink("Resident_Profiling/resident.php", "Icon/residents.png", "Residents");
-	echo generateNavLink("Clearance_and_Forms/index.php", "Icon/certificates.png", "Clearance and Forms");
+	echo generateNavLink("Clearance_and_Forms/index.php", "Icon/certificates.png", "Clearance");
 	// echo generateNavLink("Health_and_Sanitation/index.php", "Icon/health.png", "Health and Sanitation");
 	// echo generateNavLink("Peace_and_Order/incident.php", "Icon/blotter.png", "Peace and Order");
 	// echo generateNavLink("Finance/index.php", "Icon/finance.png", "Finance");
@@ -149,8 +144,8 @@ if ($_SESSION['position'] == 'Barangay Secretary' || $_SESSION['position'] == 'B
 	// echo generateNavLink("Special_Projects/index.php", "Icon/special.png", "Special Projects");
 	// echo generateNavLink("Barangay_Officials/index.php", "Icon/add.png", "Barangay Officials");
 	echo generateNavLink("fmgt", "Icon/file.png", "File Management");
-	echo generateNavLink("Report/viewreport.php", "Icon/clearances.png", "Reports");
-	echo generateNavLink("admin.php", "Icon/settings.png", "Account Setting");
+	// echo generateNavLink("Report/viewreport.php", "Icon/clearances.png", "Reports");
+	echo generateNavLink("adminedit.php?ID=" . $_SESSION['id'], "Icon/settings.png", "Account Setting");
 }
 
 if ($_SESSION['position'] == 'Barangay Councilor') {
@@ -176,7 +171,7 @@ if ($_SESSION['position'] == 'Barangay Councilor') {
 }
 ?>
 
-<a href="accountLogout.php" target="_Parent"><img src="Icon/Logout.png" height="20"
+<a href="accountLogout.php" target="_Parent"><img src="Icon/logout.png" height="20"
 		style="filter: none!important;">Logout</a>
 
 </body>
