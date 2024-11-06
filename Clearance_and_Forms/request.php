@@ -86,21 +86,19 @@ include('../Resident_Profiling/connections.php');
       </thead>
       <tbody>
         <?php
-        // Query to fetch data from request_forms table
         $query = "SELECT first_name, last_name, date_of_birth, contact_number, clearance_form, email, created_at FROM request_forms";
         $result = mysqli_query($db, $query);
 
-        // Loop through the results and display in table rows
         if ($result) {
           while ($row = mysqli_fetch_assoc($result)) {
-            echo "<tr>";
+            echo "<tr data-first-name='" . htmlspecialchars($row['first_name']) . "' data-clearance-form='" . htmlspecialchars($row['clearance_form']) . "'>";
             echo "<td>" . htmlspecialchars($row['first_name'] . " " . $row['last_name']) . "</td>";
             echo "<td>" . htmlspecialchars($row['date_of_birth']) . "</td>";
             echo "<td class='contact-number'>" . htmlspecialchars($row['contact_number']) . "</td>";
             echo "<td class='clearance-form'>" . htmlspecialchars($row['clearance_form']) . "</td>";
             echo "<td>" . htmlspecialchars($row['email']) . "</td>";
             echo "<td>" . htmlspecialchars($row['created_at']) . "</td>";
-            echo '<td><button class="btn btn-primary send-sms-btn" data-toggle="modal" data-target="#smsModal">Send SMS</button></td>';
+            echo '<td><button class="btn btn-primary send-sms-btn">Send SMS</button></td>';
             echo "</tr>";
           }
         } else {
@@ -143,18 +141,17 @@ include('../Resident_Profiling/connections.php');
 
   <script>
     $(document).ready(function () {
-      // Initialize DataTable
       $('#requestsTable').DataTable();
 
-      // JavaScript to handle Send SMS button click
       $('.send-sms-btn').on('click', function () {
-        // Get contact number and clearance form from the selected row
         const contactNumber = $(this).closest('tr').find('.contact-number').text();
-        const clearanceForm = $(this).closest('tr').find('.clearance-form').text();
+        const firstName = $(this).closest('tr').data('first-name');
+        const clearanceForm = $(this).closest('tr').data('clearance-form');
 
-        // Set values in modal fields
         $('#phoneNumber').val(contactNumber);
-        $('#message').val(`Your form ${clearanceForm} is ready for pickup.`);
+        $('#message').val(`Good day, ${firstName}. We are pleased to inform you that your ${clearanceForm} request is ready for pickup. Please proceed to Project 6 Barangay Hall. Thank you!`);
+
+        $('#smsModal').modal('show');
       });
 
       $('#sendSmsButton').on('click', function () {
@@ -162,9 +159,26 @@ include('../Resident_Profiling/connections.php');
         const message = $('#message').val();
 
         if (phoneNumber && message) {
-          // Here you would normally send the SMS using an API
-          alert(`SMS sent to ${phoneNumber}: ${message}`);
-          $('#smsModal').modal('hide'); // Close the modal
+          $.ajax({
+            url: '../sms.php',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+              phoneNumber: phoneNumber,
+              message: message
+            },
+            success: function (response) {
+              if (response.status === 'error') {
+                alert('Error: ' + response.message);
+              } else {
+                alert('SMS sent successfully!');
+                $('#smsModal').modal('hide');
+              }
+            },
+            error: function () {
+              alert('Failed to send SMS. Please try again.');
+            }
+          });
         } else {
           alert('Please enter both phone number and message.');
         }

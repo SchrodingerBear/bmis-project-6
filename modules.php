@@ -114,7 +114,7 @@ $data = mysqli_fetch_array($z);
 
 	<img src="Picture/banaba.png" style="float:left; border-radius: 50%; filter: invert(0%)!important;" width="50"
 		height="50">
-	<p style="float:center; word-wrap: break-word;">Welcome <?php if (isset($_SESSION['position2'])) {
+	<p style="font-size: 15px; float:center; word-wrap: break-word;">Welcome <?php if (isset($_SESSION['position2'])) {
 		echo $_SESSION['position2'];
 	} else {
 		echo $_SESSION['position'];
