@@ -35,8 +35,13 @@ class database
     public function __construct($host = null, $username = null, $password = null, $database = null, $port = null)
     {
         // Load environment variables from .env file
-        loadEnv(__DIR__ . '../../../.env');  // Ensure this path is correct
+        $isLocalhost = in_array($_SERVER['SERVER_NAME'], ['localhost', '127.0.0.1', '::1']);
 
+        if ($isLocalhost) {
+            loadEnv(__DIR__ . '../../../.env');  // Localhost environment file path
+        } else {
+            loadEnv(__DIR__ . '../../.env');  // Production environment file path
+        }
         // Use environment variables if not provided as parameters
         $this->host = $host ?? $_ENV['DB_HOST'];
         $this->username = $username ?? $_ENV['DB_USERNAME'];
