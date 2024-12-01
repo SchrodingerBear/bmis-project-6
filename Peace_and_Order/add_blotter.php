@@ -101,7 +101,7 @@ include_once('lib/init.php') ?>
 <div id="content-wrapper" class="content-wrapper">
     <section class="content-header">
 
-        <h5>PEACE & ORDER (Add Incident) <a class="btn btn-primary btn-sm float-right" href="Incident.php">Back</a></h5>
+        <h5>PEACE & ORDER (Add Incident) <a class="btn btn-primary btn-sm float-right" href="incident.php">Back</a></h5>
     </section>
     <section class="content">
         <div class="row">
