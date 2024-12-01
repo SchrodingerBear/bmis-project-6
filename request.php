@@ -142,6 +142,10 @@ if (isset($_GET['id'])) {
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <style>
+    .form-control:focus {
+      box-shadow: none !important;
+    }
+
     body {
       font-family: Arial, sans-serif;
       margin: 0;
