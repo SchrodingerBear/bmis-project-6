@@ -40,7 +40,7 @@ class database
         if ($isLocalhost) {
             loadEnv(__DIR__ . '../../../.env');  // Localhost environment file path
         } else {
-            loadEnv(__DIR__ . '../../.env');  // Production environment file path
+            loadEnv(__DIR__ . '/../../.env');  // Production environment file path
         }
         // Use environment variables if not provided as parameters
         $this->host = $host ?? $_ENV['DB_HOST'];
