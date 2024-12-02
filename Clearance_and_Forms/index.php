@@ -153,7 +153,7 @@ if (isset($_POST['labuleh'])) {
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item"><a class="nav-link" href="inputLogo.php">Input Logo</a></li>
-        <li class="nav-item"><a class="nav-link" href="filter.php">Logs</a></li>
+        <!-- <li class="nav-item"><a class="nav-link" href="filter.php">Logs</a></li> -->
         <li class="nav-item"><a class="nav-link" href="request.php">Request</a></li>
       </ul>
     </div>
