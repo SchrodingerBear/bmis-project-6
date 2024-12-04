@@ -163,10 +163,11 @@ if (isset($_POST['labuleh'])) {
 
     <div class="row">
       <!-- Table Section -->
-      <div class="col-md-8 table-container">
-        <table id="tableex" class="table table-striped  table-responsive">
+      <div class="col-md-9 table-container">
+        <table id="tableex" class="table table-striped table-responsive">
           <thead>
             <tr>
+              <th>Blotter Record</th>
               <th>First Name</th>
               <th>Middle Name</th>
               <th>Last Name</th>
@@ -181,18 +182,28 @@ if (isset($_POST['labuleh'])) {
           <tbody>
             <?php
             $squery = "SELECT resident_detail.res_ID, res_fName, res_mName, res_lName, marital_Name,
-                              address_Lot_No, address_Block_No, address_Phase_No, address_House_No, address_Street_Name
-                        FROM resident_detail
-                        LEFT JOIN resident_address ON resident_detail.res_ID = resident_address.res_ID
-                        LEFT JOIN ref_marital_status ON resident_detail.marital_ID = ref_marital_status.marital_ID
-                        ORDER BY res_lName ASC";
+                          address_Lot_No, address_Block_No, address_Phase_No, address_House_No, address_Street_Name
+                    FROM resident_detail
+                    LEFT JOIN resident_address ON resident_detail.res_ID = resident_address.res_ID
+                    LEFT JOIN ref_marital_status ON resident_detail.marital_ID = ref_marital_status.marital_ID
+                    ORDER BY res_lName ASC";
 
             $res_conf = mysqli_query($db, $squery);
 
             if (mysqli_num_rows($res_conf) > 0) {
               while ($row6 = mysqli_fetch_assoc($res_conf)) {
+                $var_id = $row6['res_ID'];
+
+                // Check for unsettled cases
+                $sql_blot = "SELECT * FROM ms_incident msi
+                             LEFT JOIN ms_incident_offender mso ON msi.incident_id = mso.incident_id
+                             WHERE msi.status != 5 AND mso.res_ID = '$var_id'";
+                $result1 = mysqli_query($db, $sql_blot);
+                $blotterRecord = (mysqli_num_rows($result1) > 0) ? "Unsettled Case Detected!" : "Resident is clear!";
+
                 echo "<tr style='cursor:pointer;' data-resid='{$row6['res_ID']}'>
-                          <td >{$row6['res_fName']}</td>
+                          <td>{$blotterRecord}</td>
+                          <td>{$row6['res_fName']}</td>
                           <td>{$row6['res_mName']}</td>
                           <td>{$row6['res_lName']}</td>
                           <td>{$row6['marital_Name']}</td>
@@ -201,18 +212,19 @@ if (isset($_POST['labuleh'])) {
                           <td>{$row6['address_Block_No']}</td>
                           <td>{$row6['address_House_No']}</td>
                           <td>{$row6['address_Street_Name']}</td>
-                        </tr>";
+                      </tr>";
               }
             } else {
-              echo "<tr><td colspan='9' class='text-center'>No residents found.</td></tr>";
+              echo "<tr><td colspan='10' class='text-center'>No residents found.</td></tr>";
             }
             ?>
           </tbody>
         </table>
+
       </div>
 
-      <!-- Form Section -->
-      <div class="col-md-4">
+
+      <div class="col-md-3">
         <form action="index.php" method="post">
           <input type="hidden" id="a1" readonly name="a1">
           <div class="form-group">
@@ -259,6 +271,8 @@ if (isset($_POST['labuleh'])) {
           echo $s3; ?>
         </div>
       </div>
+      <!-- Form Section -->
+
     </div>
   </div>
 
@@ -283,7 +297,6 @@ if (isset($_POST['labuleh'])) {
         $('#a3').val(row_data[1]);
         $('#a4').val(row_data[2]);
       });
-
     });
   </script>
 
