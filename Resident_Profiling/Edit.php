@@ -21,7 +21,9 @@ if ($row_edit = mysqli_fetch_assoc($get_record)) {
   $db_marital_ID = $row_edit["marital_ID"];
   $db_country_ID = $row_edit["country_ID"];
   $db_res_Height = $row_edit["res_Height"];
-  $db_res_Weight = $row_edit["res_Weight"];
+  $db_res_Weight = $row_edit["res_Weight"] ?? 'No weight provided';
+  
+
   $db_religion_ID = $row_edit["religion_ID"];
   $db_occupation_ID = $row_edit["occupation_ID"];
   $db_occuStat_ID = $row_edit["occuStat_ID"];

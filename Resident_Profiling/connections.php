@@ -1,1 +1,1 @@
-<?php include('../db.php'); ?>
+<?php require_once('../db.php'); ?>

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('connections.php');
+require_once('connections.php');
 
 // Function to get max ID from a table
 function getMaxId($db, $table, $column)

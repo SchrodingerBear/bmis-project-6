@@ -1,5 +1,5 @@
 <?php
-	
+
 session_start();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -12,7 +12,6 @@ $password = $_POST['password'];
 
 $qry = mysqli_query($db, "SELECT * FROM accounts WHERE Username ='$username'");
 if (!$qry) {
-	// Display SQL error if the query fails
 	echo "<script>alert('SQL Error: " . mysqli_error($db) . "');</script>";
 } else {
 	$count = mysqli_num_rows($qry);
@@ -59,6 +58,7 @@ if (isset($_SESSION['id'])) {
 	header('location:home.php');
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -71,6 +71,9 @@ if (isset($_SESSION['id'])) {
 
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum/build/pannellum.css">
 	<style>
+			.pnlm-container {
+			background: #f4f4f4;
+		}
 		#panorama {
 			position: absolute;
 			top: 0;
@@ -109,10 +112,10 @@ if (isset($_SESSION['id'])) {
 
 	<div class="login-container">
 		<div class="login-box">
-			<h3 class="text-center">Sign In</h3>
+			<h3 class="text-center">Sign In Here</h3>
 			<img src="Picture/banaba.png" height="100" width="100" alt="Logo">
 
-			<form method="POST">
+			<form method="POST" action="index.php">
 				<div class="form-group">
 					<input type="text" class="form-control shadow-none" name="username" placeholder="Enter Username"
 						required autofocus>
@@ -126,11 +129,6 @@ if (isset($_SESSION['id'])) {
 		</div>
 	</div>
 
-	<style>
-		.pnlm-container {
-			background: #f4f4f4;
-		}
-	</style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

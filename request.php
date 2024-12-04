@@ -200,14 +200,35 @@ if (isset($_GET['id'])) {
   <div class="container mt-4">
     <h2>Request Form</h2>
     <form action="request.php" method="post">
-      <div class="form-group">
-        <label>First Name</label>
-        <input class="form-control" type="text" name="first_name" required>
-      </div>
-      <div class="form-group">
-        <label>Last Name</label>
-        <input class="form-control" type="text" name="last_name" required>
-      </div>
+    <div class="form-group">
+    <label>First Name</label>
+    <input 
+      class="form-control" 
+      type="text" 
+      name="first_name" 
+      required 
+      id="first_name"
+      oninput="validateText(this)"
+    >
+  </div>
+  <div class="form-group">
+    <label>Last Name</label>
+    <input 
+      class="form-control" 
+      type="text" 
+      name="last_name" 
+      required 
+      id="last_name"
+      oninput="validateText(this)"
+    >
+  </div>
+
+  <script>
+  function validateText(input) {
+    input.value = input.value.replace(/[^a-zA-Z\s]/g, '');
+  }
+  </script>
+
       <div class="form-group">
         <label>Date of Birth</label>
         <input class="form-control" type="date" name="date_of_birth" required>
