@@ -60,8 +60,6 @@ session_start();
                 <th>Fullname</th>
                 <th>Username</th>
                 <th>Email Address</th>
-                <th>Device ID</th>
-                <th>Password</th>
                 <th>Position</th>
                 <th>Committee</th>
                 <th>Action</th>
@@ -84,8 +82,6 @@ session_start();
                     <td><?= $row['Fullname'] ?></td>
                     <td><?= $row['Username'] ?></td>
                     <td><?= $row['Emailaddress'] ?></td>
-                    <td><?= $row['device_Id'] ?></td>
-                    <td><?= $row['Password'] ?></td>
                     <td><?= $row['Position'] ?></td>
                     <td><?= $row['Committee'] ?></td>
                     <td>
@@ -158,11 +154,11 @@ session_start();
                         </div>
                     </div>
                     <!-- Device ID -->
-                    <div class="form-group">
+                    <div class="form-group" hidden>
                         <label class="col-sm-2 control-label">Device ID</label>
                         <div class="col-sm-10">
-                            <input class="form-control" type="text" name="device_Id" placeholder="Enter Device ID"
-                                required>
+                            <input class="form-control" type="text" name="device_Id" value="0"
+                                placeholder="Enter Device ID">
                         </div>
                     </div>
                     <!-- Password -->
