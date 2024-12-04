@@ -29,6 +29,9 @@ session_start();
         <button type="button" class="btn btn-info btn-lg pull-right" data-toggle="modal" data-target="#myModal">
             Add Account
         </button>
+        <button onclick="window.location.href='archive.php'" class="btn btn-info btn-lg pull-right">Archive
+            Account</button>
+
     <?php endif; ?>
 
     <h2>
@@ -70,9 +73,8 @@ session_start();
             include("db.php");
 
             $query = ($_SESSION['position'] == 'Barangay Secretary')
-                ? "SELECT * FROM accounts WHERE id != 1"
+                ? "SELECT * FROM accounts WHERE arc = 0 AND id != 1"  // Added WHERE keyword
                 : "SELECT * FROM accounts WHERE username='" . $_SESSION['USER'] . "'";
-
             $result = mysqli_query($db, $query);
 
             while ($row = mysqli_fetch_array($result)):
@@ -88,7 +90,7 @@ session_start();
                         <div class="btn-group">
                             <a href="accountedit.php?ID=<?= $id ?>" class="btn btn-primary">Edit</a>
                             <?php if ($_SESSION['position'] == 'Barangay Secretary'): ?>
-                                <a href="accountdelete.php?ID=<?= $id ?>" class="btn btn-danger">Delete</a>
+                                <a href="accountdelete.php?ID=<?= $id ?>" class="btn btn-danger">Archive</a>
                             <?php endif; ?>
                         </div>
                     </td>
