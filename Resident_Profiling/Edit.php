@@ -22,7 +22,7 @@ if ($row_edit = mysqli_fetch_assoc($get_record)) {
   $db_country_ID = $row_edit["country_ID"];
   $db_res_Height = $row_edit["res_Height"];
   $db_res_Weight = $row_edit["res_Weight"] ?? 'No weight provided';
-  
+
 
   $db_religion_ID = $row_edit["religion_ID"];
   $db_occupation_ID = $row_edit["occupation_ID"];
@@ -626,8 +626,6 @@ $db_res_contactnumber = fetch_reference($db, 'resident_contact', 'res_ID', $user
     $new_status = $_POST["new_status"];
 
   }
-
-
 
 
 
