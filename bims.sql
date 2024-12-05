@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 04, 2024 at 02:38 PM
+-- Generation Time: Dec 05, 2024 at 05:17 AM
 -- Server version: 10.4.33-MariaDB-log
 -- PHP Version: 8.1.10
 
@@ -36,24 +36,25 @@ CREATE TABLE `accounts` (
   `Password` varchar(100) NOT NULL,
   `Position` varchar(100) NOT NULL,
   `Committee` varchar(100) NOT NULL,
-  `position_id` int(20) NOT NULL DEFAULT 0
+  `position_id` int(20) NOT NULL DEFAULT 0,
+  `arc` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `accounts`
 --
 
-INSERT INTO `accounts` (`ID`, `Fullname`, `Username`, `Emailaddress`, `device_Id`, `Password`, `Position`, `Committee`, `position_id`) VALUES
-(1, 'admin', 'admin', 'admin@gmail.com', '1234', 'admin', 'Barangay Secretary', 'None', 3),
-(66, 'Princess', 'captain', '32', '32', 'captain', 'Barangay Captain', 'None', 0),
-(70, 'Arianne Rose D. Aquino', 'infrastructure', 'aryan@gmail.com', '0', 'infrastructure', 'Barangay Captain', 'None', 0),
-(71, 'Jerick B. Marimat', 'Finance', 'jerick@gmail.com', '0', 'Finance', 'Barangay Councilor', 'Finance', 0),
-(72, 'Jesty J. Justo', 'Sports', 'jesty@gmail.com', '0', 'Sports', 'Barangay Councilor', 'None', 0),
-(73, 'Carl Wency B. Seniel', 'education', 'carl@gmail.com', '0', 'education', 'Barangay Captain', 'None', 0),
-(74, 'Paul Micahael C. Insular', 'Treasurer', 'paul@gmail.com', '0', 'Treasurer', 'Barangay Treasurer', 'None', 0),
-(75, 'Hughie F. Molar', 'Chairman', 'yuwi@gmail.com', '0', 'Chairman', 'SK Chairman', 'None', 0),
-(76, 'Ronald F. Rado', 'healthworker', 'rado@gmail.com', '0', 'healthworker', 'Barangay Health Worker', 'None', 0),
-(80, 'Mary Ann A Auxtero', 'Peace', 'mean@ygmail.com', '1234', 'Peace', 'Barangay Councilor', 'Peace and Order', 0);
+INSERT INTO `accounts` (`ID`, `Fullname`, `Username`, `Emailaddress`, `device_Id`, `Password`, `Position`, `Committee`, `position_id`, `arc`) VALUES
+(1, 'admin', 'admin', 'admin@gmail.com', '1234', 'admin', 'Barangay Secretary', 'None', 3, 0),
+(66, 'Princess', 'captain', '32', '32', 'captain', 'Barangay Captain', 'None', 0, 1),
+(70, 'Arianne Rose D. Aquino', 'infrastructure', 'aryan@gmail.com', '0', 'infrastructure', 'Barangay Captain', 'None', 0, 0),
+(71, 'Jerick B. Marimat', 'Finance', 'jerick@gmail.com', '0', 'Finance', 'Barangay Councilor', 'Finance', 0, 0),
+(72, 'Jesty J. Justo', 'Sports', 'jesty@gmail.com', '0', 'Sports', 'Barangay Councilor', 'None', 0, 0),
+(73, 'Carl Wency B. Seniel', 'education', 'carl@gmail.com', '0', 'education', 'Barangay Captain', 'None', 0, 0),
+(74, 'Paul Micahael C. Insular', 'Treasurer', 'paul@gmail.com', '0', 'Treasurer', 'Barangay Treasurer', 'None', 0, 0),
+(75, 'Hughie F. Molar', 'Chairman', 'yuwi@gmail.com', '0', 'Chairman', 'SK Chairman', 'None', 0, 0),
+(76, 'Ronald F. Rado', 'healthworker', 'rado@gmail.com', '0', 'healthworker', 'Barangay Health Worker', 'None', 0, 1),
+(80, 'Mary Ann A Auxtero', 'Peace', 'mean@ygmail.com', '1234', 'Peace', 'Barangay Councilor', 'Peace and Order', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1339,7 +1340,8 @@ INSERT INTO `form_release` (`release_ID`, `res_ID`, `form_ID`, `purpose_ID`, `re
 (50, 1, 1, 1, '2024-10-29 10:01:02'),
 (51, 1, 1, 1, '2024-12-01 04:29:53'),
 (52, 1, 1, 1, '2024-12-01 05:24:21'),
-(53, 1, 1, 1, '2024-12-01 05:24:32');
+(53, 1, 1, 1, '2024-12-01 05:24:32'),
+(54, 1, 1, 1, '2024-12-05 05:10:41');
 
 -- --------------------------------------------------------
 
@@ -11710,7 +11712,7 @@ ALTER TABLE `finance_fundoperation_psset`
 -- AUTO_INCREMENT for table `form_release`
 --
 ALTER TABLE `form_release`
-  MODIFY `release_ID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `release_ID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `form_request`
