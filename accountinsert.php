@@ -1,8 +1,7 @@
 <?php
 
 //add dbconnect
-include("db.php");
-include("db.php");
+require_once("db.php");
 
 $fullname = $_POST['fullname'];
 $username = $_POST['username'];
@@ -84,7 +83,7 @@ if ($position == 'Barangay Captain') {
 	$query = mysqli_query($db, "SELECT * from accounts WHERE Committee = '$committee'");
 	while ($row = mysqli_fetch_assoc($query)) {
 		if ($row['Committee'] != null) {
-			echo '<script> alert ("Committee already exist")</script>';
+			echo '<script> alert ("Account with that committee already exist")</script>';
 			echo '<script> window.history.back();</script>';
 			die();
 		}

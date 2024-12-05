@@ -641,12 +641,52 @@ $db_res_contactnumber = fetch_reference($db, 'resident_contact', 'res_ID', $user
 
 
 
+      // Handle potential empty values for integers
+      $new_occupation = !empty($new_occupation) ? $new_occupation : 'NULL';
+      $new_weight = !empty($new_weight) ? $new_weight : 'NULL';
+      $new_height = !empty($new_height) ? $new_height : 'NULL';
 
-      mysqli_query($db, "UPDATE resident_detail SET res_fName='$new_fname', res_mName='$new_mname', res_lName='$new_lname', suffix_ID='$new_suffix', gender_ID='$new_gender', res_Bday='$new_bday' , marital_ID='$new_marital', country_ID='$new_country' , religion_ID='$new_religion', occuStat_ID='$new_occuStat', res_Height='$new_height', res_Weight='$new_weight', occupation_ID='$new_occupation' , status='$new_status'  where res_ID = '$user_id'");
+      // Construct the query
+      $query = "
+    UPDATE resident_detail 
+    SET 
+        res_fName='$new_fname', 
+        res_mName='$new_mname', 
+        res_lName='$new_lname', 
+        suffix_ID='$new_suffix', 
+        gender_ID='$new_gender', 
+        res_Bday='$new_bday', 
+        marital_ID='$new_marital', 
+        country_ID='$new_country', 
+        religion_ID='$new_religion', 
+        occuStat_ID='$new_occuStat', 
+        res_Height=$new_height, 
+        res_Weight=$new_weight, 
+        occupation_ID=$new_occupation, 
+        status='$new_status'  
+    WHERE res_ID='$user_id'
+";
+
+      // Execute the query
+      mysqli_query($db, $query) or die(mysqli_error($db));
 
 
       mysqli_query($db, "UPDATE resident_address SET address_Unit_Room_Floor_num='$new_addressUnit', address_BuildingName='$new_addressBuilding', address_Lot_No='$new_addressLot', address_Block_No='$new_addressBlock', address_Phase_No='$new_addressPhase', address_House_No='$new_addressHouse', address_Street_Name='$new_addressStreet', address_Subdivision='$new_addressSubdi', purok_ID='$new_purok', addressType_ID='$new_addresstype' WHERE res_ID = '$user_id' ");
-      mysqli_query($db, "UPDATE resident_contact SET contact_telnum='$new_contacttel', contactType_ID='$new_contacttype' WHERE res_ID='$user_id'");
+
+      // Handle empty integer value for contactType_ID
+      $new_contacttype = !empty($new_contacttype) ? $new_contacttype : 'NULL';
+
+      // Construct the query
+      $query = "
+    UPDATE resident_contact 
+    SET 
+        contact_telnum='$new_contacttel', 
+        contactType_ID=$new_contacttype 
+    WHERE res_ID='$user_id'
+";
+
+      // Execute the query
+      mysqli_query($db, $query) or die(mysqli_error($db));
 
 
 
