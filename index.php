@@ -7,50 +7,50 @@ error_reporting(E_ALL);
 include('db.php');
 
 if (isset($_POST['submit'])) {
-$username = $_POST['username'];
-$password = $_POST['password'];
+	$username = $_POST['username'];
+	$password = $_POST['password'];
 
-$qry = mysqli_query($db, "SELECT * FROM accounts WHERE Username ='$username'");
-if (!$qry) {
-	echo "<script>alert('SQL Error: " . mysqli_error($db) . "');</script>";
-} else {
-	$count = mysqli_num_rows($qry);
-
-	if ($count > 0) {
-		$accnt = mysqli_fetch_array($qry);
-		$pass = $accnt['Password'];
-
-		$_SESSION['id'] = $accnt['ID'];
-
-		if ($pass == $password && $username == $username) {
-			$pos = $accnt['position_id'];
-			$position = $accnt['Position'];
-			$committee = $accnt['Committee'];
-			$fullname = $accnt['Fullname'];
-			$_SESSION['LOGIN_STATUS'] = true;
-			$_SESSION['position'] = $position;
-
-			if ($_SESSION['position'] === 'Barangay Secretary') {
-				$_SESSION['position2'] = 'Barangay Admin';
-			}
-
-			$_SESSION['USER'] = $username;
-			$_SESSION['committee'] = $committee;
-			$_SESSION['password'] = $password;
-			$_SESSION['emailaddress'] = $accnt['Emailaddress'];
-			$_SESSION['device_Id'] = $accnt['Position'];
-			$_SESSION['positionID'] = $pos;
-			$_SESSION['fullname'] = $fullname;
-			$_SESSION['position_id'] = $accnt['position_id'];
-
-			echo '<script>window.location = "home.php";</script>';
-		} else {
-			echo "<script>alert('Incorrect Password.');</script>";
-		}
+	$qry = mysqli_query($db, "SELECT * FROM accounts WHERE Username ='$username'");
+	if (!$qry) {
+		echo "<script>alert('SQL Error: " . mysqli_error($db) . "');</script>";
 	} else {
-		echo "<script>alert('Invalid username.');</script>";
+		$count = mysqli_num_rows($qry);
+
+		if ($count > 0) {
+			$accnt = mysqli_fetch_array($qry);
+			$pass = $accnt['Password'];
+
+			$_SESSION['id'] = $accnt['ID'];
+
+			if ($pass == $password && $username == $username) {
+				$pos = $accnt['position_id'];
+				$position = $accnt['Position'];
+				$committee = $accnt['Committee'];
+				$fullname = $accnt['Fullname'];
+				$_SESSION['LOGIN_STATUS'] = true;
+				$_SESSION['position'] = $position;
+
+				if ($_SESSION['position'] === 'Barangay Secretary') {
+					$_SESSION['position2'] = 'Barangay Admin';
+				}
+
+				$_SESSION['USER'] = $username;
+				$_SESSION['committee'] = $committee;
+				$_SESSION['password'] = $password;
+				$_SESSION['emailaddress'] = $accnt['Emailaddress'];
+				$_SESSION['device_Id'] = $accnt['Position'];
+				$_SESSION['positionID'] = $pos;
+				$_SESSION['fullname'] = $fullname;
+				$_SESSION['position_id'] = $accnt['position_id'];
+
+				echo '<script>window.location = "home.php";</script>';
+			} else {
+				echo "<script>alert('Incorrect Password.');</script>";
+			}
+		} else {
+			echo "<script>alert('Invalid username.');</script>";
+		}
 	}
-}
 }
 
 
@@ -71,9 +71,10 @@ if (isset($_SESSION['id'])) {
 
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum/build/pannellum.css">
 	<style>
-			.pnlm-container {
+		.pnlm-container {
 			background: #f4f4f4;
 		}
+
 		#panorama {
 			position: absolute;
 			top: 0;
@@ -112,7 +113,7 @@ if (isset($_SESSION['id'])) {
 
 	<div class="login-container">
 		<div class="login-box">
-			<h3 class="text-center">Sign In Here</h3>
+			<h3 class="text-center">Sign In</h3>
 			<img src="Picture/banaba.png" height="100" width="100" alt="Logo">
 
 			<form method="POST" action="index.php">

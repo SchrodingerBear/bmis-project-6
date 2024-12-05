@@ -293,9 +293,9 @@ if (isset($_POST['labuleh'])) {
         var row_data = $(this).children('td').map(function () { return $(this).text(); }).get();
         var resID = $(this).data('resid');  // Get the resident ID from the data attribute
         $('#a1').val(resID);                // Set the value of resID
-        $('#a2').val(row_data[0]);
-        $('#a3').val(row_data[1]);
-        $('#a4').val(row_data[2]);
+        $('#a2').val(row_data[1]);
+        $('#a3').val(row_data[2]);
+        $('#a4').val(row_data[3]);
       });
     });
   </script>
