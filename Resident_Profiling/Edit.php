@@ -3,30 +3,43 @@ include('connections.php');
 
 // Fetch user details based on the user_id
 $user_id = $_REQUEST["id"] ?? '';
+// Fetch resident details
 $get_record = mysqli_query($db, "SELECT * FROM resident_detail WHERE res_ID='$user_id'");
 
 // Initialize variables
 $db_res_fName = $db_res_mName = $db_res_lName = $db_res_suffixname = '';
 $db_gender_ID = $db_marital_ID = $db_country_ID = $db_religion_ID = '';
 $db_res_Height = $db_res_Weight = $db_occupation_ID = $db_occuStat_ID = '';
-$db_res_Bday = '';
+$db_res_Bday = $db_res_contype = '';
 
+// Fetch resident details
 if ($row_edit = mysqli_fetch_assoc($get_record)) {
   $db_res_fName = $row_edit["res_fName"] ?? '';
-  $db_res_mName = $row_edit["res_mName"];
-  $db_res_lName = $row_edit["res_lName"];
-  $db_suffix_ID = $row_edit["suffix_ID"];
-  $db_gender_ID = $row_edit["gender_ID"];
-  $db_res_Bday = $row_edit["res_Bday"];
-  $db_marital_ID = $row_edit["marital_ID"];
-  $db_country_ID = $row_edit["country_ID"];
-  $db_res_Height = $row_edit["res_Height"];
+  $db_res_mName = $row_edit["res_mName"] ?? '';
+  $db_res_lName = $row_edit["res_lName"] ?? '';
+  $db_suffix_ID = $row_edit["suffix_ID"] ?? '';
+  $db_gender_ID = $row_edit["gender_ID"] ?? '';
+  $db_res_Bday = $row_edit["res_Bday"] ?? '';
+  $db_marital_ID = $row_edit["marital_ID"] ?? '';
+  $db_country_ID = $row_edit["country_ID"] ?? '';
+  $db_res_Height = $row_edit["res_Height"] ?? '';
   $db_res_Weight = $row_edit["res_Weight"] ?? 'No weight provided';
+  $db_religion_ID = $row_edit["religion_ID"] ?? '';
+  $db_occupation_ID = $row_edit["occupation_ID"] ?? '';
+  $db_occuStat_ID = $row_edit["occuStat_ID"] ?? '';
+}
 
+// Fetch contact type
+$get_contact_type = mysqli_query(
+  $db,
+  "SELECT ref_contact.contactType_Name 
+     FROM resident_contact 
+     JOIN ref_contact ON resident_contact.contactType_ID = ref_contact.contactType_ID 
+     WHERE resident_contact.res_ID = '$user_id'"
+);
 
-  $db_religion_ID = $row_edit["religion_ID"];
-  $db_occupation_ID = $row_edit["occupation_ID"];
-  $db_occuStat_ID = $row_edit["occuStat_ID"];
+if ($row_contact = mysqli_fetch_assoc($get_contact_type)) {
+  $db_res_contype = $row_contact['contactType_Name'] ?? 'No contact type';
 }
 
 // Function to fetch reference data
@@ -42,6 +55,7 @@ function fetch_reference($db, $table, $column, $value, $return_column)
 // Fetch related reference data
 $db_res_suffixname = fetch_reference($db, 'ref_suffixname', 'suffix_ID', $db_suffix_ID, 'suffix');
 $db_res_gender = fetch_reference($db, 'ref_gender', 'gender_ID', $db_gender_ID, 'gender_Name');
+
 $db_res_marital = fetch_reference($db, 'ref_marital_status', 'marital_ID', $db_marital_ID, 'marital_Name');
 $db_res_religion = fetch_reference($db, 'ref_religion', 'religion_ID', $db_religion_ID, 'religion_Name');
 $db_res_occuStat = fetch_reference($db, 'ref_occupation_status', 'occuStat_ID', $db_occuStat_ID, 'occuStat_Name');
